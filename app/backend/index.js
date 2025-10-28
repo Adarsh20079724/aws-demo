@@ -21,6 +21,6 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`)
   console.log(`📍 URL: http://localhost:${PORT}`);
   console.log(`🔗 API: http://localhost:${PORT}/api/hello`);
-  console.log(`🔗 API: http://localhost:${PORT}/api/reset`);
+  console.log(`🔗 API: http://localhost:${PORT}/api/refresh`);
   console.log('========================================');
 });
