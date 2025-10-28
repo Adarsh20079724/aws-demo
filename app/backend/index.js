@@ -12,9 +12,11 @@ app.get('/api/hello', (req, res) => {
     res.json("This is code from backend")
 })
 
+
 app.get('/api/reset', (req, res) => {
     res.json("")
 })
+
 
 app.listen(PORT, () => {
   console.log('========================================');
