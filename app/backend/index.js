@@ -15,6 +15,7 @@ app.get('/api/hello', (req, res) => {
 
 app.get('/api/reset', (req, res) => {
     res.json("")
+    console.log("Message has been refreshed").
 })
 
 
