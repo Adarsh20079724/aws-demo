@@ -29,6 +29,9 @@ const App = () => {
     <br />
     <br />
     <label>{message}</label>
+    <br />
+    <br />
+    <label>Test Successful</label>
     </div>
   )
 }
