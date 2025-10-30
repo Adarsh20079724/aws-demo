@@ -5,17 +5,17 @@ const App = () => {
   const [message, setMessage] = useState("")
 
   const fetchMsg = async () => {
-    const response = await fetch("http://localhost:3000/api/hello");
-    const data = await response.json()
-    
+    // const response = await fetch("http://localhost:3000/api/hello");
+    // const data = await response.json()
+    const data = "Test Successful"
     setMessage(data);
   }
 
   const refreshMsg = async () => {
-    const response = await fetch("http://localhost:3000/api/reset");
-    const data = await response.json()
+    // const response = await fetch("http://localhost:3000/api/reset");
+    // const data = await response.json()
 
-    console.log("data: ",data);
+    const data = ""
     setMessage(data);
   }
   return (
@@ -31,7 +31,7 @@ const App = () => {
     <label>{message}</label>
     <br />
     <br />
-    <label>Test Successful</label>
+    <label>AWS CI/CD</label>
     </div>
   )
 }
