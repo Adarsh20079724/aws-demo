@@ -1,0 +1,73 @@
+name: Deploy Frontend Docker to EC2
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/frontend/**'
+
+jobs:
+  deploy:
+    name: Build and Deploy Docker Container
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Deploy Docker container to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "🚀 Starting Docker deployment..."
+            
+            # Navigate to repository
+            cd /home/ec2-user/aws-demo
+            
+            # Pull latest code
+            echo "📥 Pulling latest code from GitHub..."
+            git pull origin main
+            
+            # Navigate to frontend folder
+            cd app/frontend
+            
+            # Stop and remove old container
+            echo "🛑 Stopping old container..."
+            docker stop react-app 2>/dev/null || true
+            docker rm react-app 2>/dev/null || true
+            
+            # Build new Docker image
+            echo "🔨 Building new Docker image..."
+            docker build -t react-app:latest .
+            
+            # Run new container
+            echo "🚀 Starting new container..."
+            docker run -d \
+              --name react-app \
+              -p 80:80 \
+              --restart unless-stopped \
+              react-app:latest
+            
+            # Wait for container to be healthy
+            echo "⏳ Waiting for container to start..."
+            sleep 5
+            
+            # Check if container is running
+            if [ $(docker ps -q -f name=react-app) ]; then
+              echo "✅ Container is running!"
+              docker ps -f name=react-app
+            else
+              echo "❌ Container failed to start!"
+              docker logs react-app
+              exit 1
+            fi
+            
+            # Clean up old images
+            echo "🧹 Cleaning up old Docker images..."
+            docker image prune -af --filter "label!=keep"
+            
+            echo "✅ Deployment complete!"
