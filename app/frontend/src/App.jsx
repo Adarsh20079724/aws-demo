@@ -31,7 +31,7 @@ const App = () => {
     <label>{message}</label>
     <br />
     <br />
-    <label>AWS CI/CD</label>
+    <label>AWS CI/CD Pipeline created</label>
     </div>
   )
 }
